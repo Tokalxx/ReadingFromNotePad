@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ReadingFromNotePad.Tree
 {
@@ -10,6 +12,7 @@ namespace ReadingFromNotePad.Tree
             // Define the path to the text file.
             string filePath = "C:\\Users\\tokal\\Documents\\BCAD\\Year 3\\Seme 2\\PROG7312\\Notes\\Part3 Notes\\ReadingFromNotePad\\ReadingFromNotePad\\TextFile\\TestTextFile.txt";
 
+            Random ran = new Random();
             // Create a Tree instance with a root node.
             Tree tr = new Tree(new Node("0", "...", null));
 
@@ -57,29 +60,96 @@ namespace ReadingFromNotePad.Tree
                         }
                     }
                 }
+
             }
 
+            randomDisplay(tr.Root, ran);
+
+
             // Generate and print the tree structure, starting from the root.
-            genTree(tr.Root, 0);
+            //genTree(tr.Root, 0);
 
             // Wait for a key press before exiting the program.
             Console.ReadKey();
         }
 
-        // Recursively print the tree structure with proper indentation.
-        public static void genTree(Node tr, int level)
+        public static void randomDisplay(Node tr, Random ran)
         {
-            foreach (Node x in tr.Children)
-            {
-                // Indent the node based on the level and print it.
-                Console.WriteLine(new string('\t', level) + x);
+            List<List<Node>> Holder = new List<List<Node>>();
 
-                // If the node has children, recursively print them at a deeper level.
-                if (x.Children.Count > 0)
+
+            bool check1 = true;
+            int num1 = 2;
+
+            for (int y = 0; y < 1; y++)
+            {
+                List<Node> tempLevel1 = tr.Children.OrderBy(x => ran.Next()).ToList();
+                List<Node> tempLevel2 = tempLevel1[0]?.Children?.OrderBy(x => ran.Next()).ToList();
+                List<Node> tempLevel3 = tempLevel2?[0]?.Children?.OrderBy(x => ran.Next()).ToList();
+
+                Holder.Add(tempLevel1);
+                Holder.Add(tempLevel2);
+                Holder.Add(tempLevel3);
+
+                //foreach (List<Node> items in Holder)
+                //{
+                //    foreach (Node item in items)
+                //    {
+                //        Console.WriteLine(item);
+                //    }
+                //}
+
+                while (check1 == true && num1 >= 0)
                 {
-                    genTree(x, level + 1);
+
+                    foreach (Node item in Holder[num1])
+                    {
+                        Console.WriteLine(item.Num);
+                    }
+
+
+                    Console.WriteLine("Enter Answer");
+                    string checkWord = Console.ReadLine();
+
+                    foreach (Node item in Holder[num1])
+                    {
+                        if (checkWord == item.Num)
+                        {
+                            check1 = true;
+                            Console.WriteLine($"Correct {item.Num}");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Wrong");
+                            check1 = false;
+                        }
+                    }
+
+
+
+                    --num1;
                 }
+
             }
+
+
         }
+
+        // Recursively print the tree structure with proper indentation.
+        //public static void genTree(Node tr, int level)
+        //{
+        //    foreach (Node x in tr.Children)
+        //    {
+        //        // Indent the node based on the level and print it.
+        //        Console.WriteLine(new string('\t', level) + x);
+
+        //        // If the node has children, recursively print them at a deeper level.
+        //        if (x.Children.Count > 0)
+        //        {
+        //            genTree(x, level + 1);
+        //        }
+        //    }
+        //}
     }
 }
