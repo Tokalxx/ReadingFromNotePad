@@ -87,9 +87,13 @@ namespace ReadingFromNotePad.Tree
                 List<Node> tempLevel2 = tempLevel1[0]?.Children?.OrderBy(x => ran.Next()).ToList();
                 List<Node> tempLevel3 = tempLevel2?[0]?.Children?.OrderBy(x => ran.Next()).ToList();
 
-                Holder.Add(tempLevel1);
-                Holder.Add(tempLevel2);
+                //Holder.Add(tempLevel1);
+                //Holder.Add(tempLevel2);
+                //Holder.Add(tempLevel3);
+
                 Holder.Add(tempLevel3);
+                Holder.Add(tempLevel2);
+                Holder.Add(tempLevel1);
 
                 //foreach (List<Node> items in Holder)
                 //{
@@ -113,7 +117,7 @@ namespace ReadingFromNotePad.Tree
 
                     foreach (Node item in Holder[num1])
                     {
-                        if (checkWord == item.Num)
+                        if (Convert.ToInt32(checkWord) == Convert.ToInt32(item.Num))
                         {
                             check1 = true;
                             Console.WriteLine($"Correct {item.Num}");
